@@ -1,4 +1,65 @@
 {% extends 'MopaBootstrapBundle::base.html.twig' %}
 
+{% block head_style %}
+   <link href="{{ asset('twbs/css/bootstrap.min.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
 
+ {% block head_script %}
 
+     <script type="text/javascript" src="{{ asset('js/jquery.js') }}"></script>
+     <script type="text/javascript" src="{{ asset('js/myjs.js') }}"></script>
+     <script type="text/javascript" src="{{ asset('bundles/mopabootstrap/bootstrap/js/modal.js') }}"></script>
+ {% endblock head_script %}
+
+{% block title %}ProductList{% endblock %}
+
+{% block headline %}Product list{% endblock %}
+
+{% block content_content %}
+     <button class="btn btn-block btn-default add_new_product" >Add new product</button>
+    <table class="table table-striped table-bordered">
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Action</th>
+        </tr>
+        {% for item in products %}
+            <tr>
+                <td>{{ item.title }}</td>
+                <td>{{ item.description }}</td>
+                <td>
+                    &nbsp;
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    {{ include('MopaBootstrapBundle::Modal/modal.html.twig',{ 'attr': {} }) }}
+
+    <a href="#myModal" role="button" class="btn" data-toggle="modal">Запустить демонстрацию модального элемента</a>
+ 
+
+    <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+            </div>
+            <div class="modal-body">
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
+                {{ form_widget(form) }}
+                {{ form_end(form) }}
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Закрыть</button>
+                <button class="btn btn-primary">Сохранить изменения</button>
+            </div>
+        </div>
+    </div>
+
+{% endblock content_content %}
+
+{% block content_sidebar %}
+{% endblock%}
+
+{% block footer %}
+{% endblock %}
