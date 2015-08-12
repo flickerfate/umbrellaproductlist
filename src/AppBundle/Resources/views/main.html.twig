@@ -1,12 +1,12 @@
 {% extends 'MopaBootstrapBundle::base.html.twig' %}
 
 {% block head_style %}
-   <link href="{{ asset('twbs/css/bootstrap.min.css') }}" type="text/css" rel="stylesheet" />
+   <link href="{{ asset('bundles/mopabootstrap/bootstrap/dist/css/bootstrap.min.css') }}" type="text/css" rel="stylesheet" />
 {% endblock %}
 
  {% block head_script %}
 
-     <script type="text/javascript" src="{{ asset('js/jquery.js') }}"></script>
+     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.js"></script>
      <script type="text/javascript" src="{{ asset('js/myjs.js') }}"></script>
      <script type="text/javascript" src="{{ asset('bundles/mopabootstrap/bootstrap/js/modal.js') }}"></script>
  {% endblock head_script %}
