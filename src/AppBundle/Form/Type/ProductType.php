@@ -13,10 +13,19 @@ class ProductType extends AbstractType {
         $builder
             ->setAction('/save')
             ->setMethod('POST')
-            ->add('title',"text",array('max_length'=>100))
+            ->add('title',"text",array(
+                'max_length'=>100,
+                'attr' => array(
+                    'placeholder' => "New title",
+                )
+            ))
             ->add('description', "textarea")
-            ->add('save', 'submit')
-        ;
+            ->add('id', 'hidden')
+            ->add('save', 'submit',array(
+                 'attr' => array(
+                     'class' => "btn-primary"
+                 )
+            ));
     }
 
     public function getName()

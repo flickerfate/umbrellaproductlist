@@ -52,6 +52,18 @@ class Product {
     }
 
     /**
+     * Set id
+     *
+     * @return Product
+     */
+    public function setId($id)
+    {
+        $this->id = intval($id);
+
+        return $this;
+    }
+
+    /**
      * Set title
      *
      * @param string $title

@@ -81,6 +81,4 @@ swiftmailer:
 
 mopa_bootstrap:
     form: ~
-    icons:
-            icon_set: glyphicons
-            shortcut: icon
+

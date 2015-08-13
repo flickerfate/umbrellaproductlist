@@ -7,7 +7,7 @@
  {% block head_script %}
 
      <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.js"></script>
-     <script type="text/javascript" src="{{ asset('js/myjs.js') }}"></script>
+     <script type="text/javascript" src="{{ asset('js/product.js') }}"></script>
      <script type="text/javascript" src="{{ asset('bundles/mopabootstrap/bootstrap/js/modal.js') }}"></script>
  {% endblock head_script %}
 
@@ -16,7 +16,9 @@
 {% block headline %}Product list{% endblock %}
 
 {% block content_content %}
-     <button class="btn btn-block btn-default add_new_product" >Add new product</button>
+    <div class="text-right">
+        <a href="#myModal" role="button" class="btn add_new_product" data-toggle="modal" >Add new product</a>
+    </div>
     <table class="table table-striped table-bordered">
         <tr>
             <th>Title</th>
@@ -28,31 +30,26 @@
                 <td>{{ item.title }}</td>
                 <td>{{ item.description }}</td>
                 <td>
-                    &nbsp;
+                    <input type="hidden" value="{{ item.id }}">
+                    <a href="#myModal" role="button" class="btn edit_product" onclick="fill_form(this.parentNode.parentNode)" data-toggle="modal" >edit</a>
+                    <a href="/delete/{{ item.id }}" role="button" class="btn" onclick="return confirm('afdf')">delete</a>
                 </td>
             </tr>
         {% endfor %}
     </table>
-    {{ include('MopaBootstrapBundle::Modal/modal.html.twig',{ 'attr': {} }) }}
-
-    <a href="#myModal" role="button" class="btn" data-toggle="modal">Запустить демонстрацию модального элемента</a>
- 
 
     <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                <button type="button" class="close" onclick="clear_form()" data-dismiss="modal" aria-hidden="true">Close</button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body text-center">
                 {{ form_start(form) }}
                 {{ form_errors(form) }}
                 {{ form_widget(form) }}
                 {{ form_end(form) }}
             </div>
-            <div class="modal-footer">
-                <button class="btn" data-dismiss="modal" aria-hidden="true">Закрыть</button>
-                <button class="btn btn-primary">Сохранить изменения</button>
-            </div>
+
         </div>
     </div>
 

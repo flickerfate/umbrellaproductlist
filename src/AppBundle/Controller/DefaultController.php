@@ -32,22 +32,47 @@ class DefaultController extends Controller
     /**
      * @Route("/save", name="form_target", methods="POST")
      */
-    public function saveProductAction(Request $request, Product $product = null)
+    public function saveProductAction(Request $request)
     {
+        $form_type = new ProductType();
+        $form_data = $request->request->get($form_type->getName());
+        if(empty($form_data)){
+            return new Response('Empty form');
+        }
 
-        $product = (is_null($product))?(new Product()): $product;
-        $form = $this->createForm(new ProductType(),$product);
+        $em = $this->getDoctrine()->getManager();
+
+        if(isset($form_data['id']) && !empty($form_data['id']))
+            $product = $em->getRepository('AppBundle:Product')->find($form_data['id']);
+        else
+            $product = new Product();
+
+
+
+        $form = $this->createForm(new ProductType(), $product);
         $form->handleRequest($request);
 
         if($form->isValid()){
-            $em = $this->getDoctrine()->getManager();
             $em->persist($product);
             $em->flush();
 
-            return new Response('Created product id '.$product->getId());
+//            return new Response('Created product id '.$product->getId());
+            return $this->redirect($this->generateUrl("homepage"));
         }
 
         return new Response($form->getErrors());
+    }
+
+    /**
+     * @Route("/delete/{product}", name="product_delete")
+     */
+    public function deleteProductAction(Product $product){
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($product);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl("homepage"));
     }
 
 
