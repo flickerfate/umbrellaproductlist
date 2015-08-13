@@ -11,8 +11,10 @@ use AppBundle\Entity\Product;
 
 class DefaultController extends Controller
 {
+
     /**
      * @Route("/", name="homepage")
+     * @return Response
      */
     public function indexAction()
     {
@@ -23,14 +25,18 @@ class DefaultController extends Controller
 
         $form = $this->createForm(new ProductType(), new Product());
 
-        return $this->render('AppBundle::main.html.twig', array("products" => $product,"form" => $form->createView()));
-//        return $this->render('default/index.html.twig', array(
-//            'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
-//        ));
+        return $this->render('AppBundle::main.html.twig', array(
+            "products" => $product,
+            "form" => $form->createView(),
+             'is_error' => 0
+            ));
+
     }
 
     /**
      * @Route("/save", name="form_target", methods="POST")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function saveProductAction(Request $request)
     {
@@ -56,15 +62,23 @@ class DefaultController extends Controller
             $em->persist($product);
             $em->flush();
 
-//            return new Response('Created product id '.$product->getId());
             return $this->redirect($this->generateUrl("homepage"));
         }
 
-        return new Response($form->getErrors());
+        $products = $em
+            ->getRepository('AppBundle:Product')
+            ->findAll();
+        return $this->render('AppBundle::main.html.twig', array(
+            "products" => $products,
+            'form' => $form->createView(),
+            'is_error' => 1
+        ));
     }
 
     /**
      * @Route("/delete/{product}", name="product_delete")
+     * @param Product $product
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteProductAction(Product $product){
 
