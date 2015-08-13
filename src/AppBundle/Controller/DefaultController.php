@@ -65,6 +65,7 @@ class DefaultController extends Controller
             return $this->redirect($this->generateUrl("homepage"));
         }
 
+        $em->detach($product);
         $products = $em
             ->getRepository('AppBundle:Product')
             ->findAll();
